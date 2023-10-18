@@ -13,6 +13,9 @@ Keycloak for Blazor demo
 - [OpenID Connect Client with .NET](https://curity.io/resources/learn/dotnet-openid-connect-website/)
 - [C#/NetStandard OpenID Connect Client Library for native Applications](https://github.com/IdentityModel/IdentityModel.OidcClient)
 - [Secure ASP.NET Core Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/webassembly/?view=aspnetcore-7.0)
+- [OpenIDConnect Response Type Confusion](https://stackoverflow.com/questions/29275477/openidconnect-response-type-confusion)
+
+
 
 ## Keycloak setup
 

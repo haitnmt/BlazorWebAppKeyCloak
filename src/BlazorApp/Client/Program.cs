@@ -19,7 +19,7 @@ public class Program
             options.ProviderOptions.MetadataUrl = "http://localhost:8080/realms/myrealm/.well-known/openid-configuration";
             options.ProviderOptions.Authority = "http://localhost:8080/realms/myrealm";
             options.ProviderOptions.ClientId = "blazor-client";
-            options.ProviderOptions.ResponseType = "id_token token";
+            options.ProviderOptions.ResponseType = "code";
 
             options.UserOptions.NameClaim = "preferred_username";
             options.UserOptions.RoleClaim = "roles";
