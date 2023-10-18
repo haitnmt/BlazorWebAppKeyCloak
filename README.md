@@ -79,10 +79,6 @@ Add valid redirect urls: http://localhost:5278/*
 curl --data "grant_type=password&client_id=blazor-client&username=afedyanin&password=afedyanin&client_secret=aNZUREfcTwZjh1qiD095SGQnzL6SQWo0" localhost:8080/realms/myrealm/protocol/openid-connect/token
 ```
 
+- Enable CORS on Keycloak
+- 
 
-## App setup
-
-
-```
-dotnet add package Keycloak.AuthServices.Authentication
-```
