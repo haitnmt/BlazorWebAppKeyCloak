@@ -14,8 +14,9 @@ Keycloak for Blazor demo
 - [C#/NetStandard OpenID Connect Client Library for native Applications](https://github.com/IdentityModel/IdentityModel.OidcClient)
 - [Secure ASP.NET Core Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/webassembly/?view=aspnetcore-7.0)
 - [OpenIDConnect Response Type Confusion](https://stackoverflow.com/questions/29275477/openidconnect-response-type-confusion)
-
-
+- [Blazor.BFF.OpenIDConnect.Template](https://github.com/damienbod/Blazor.BFF.OpenIDConnect.Template)
+- [Securing SPAs and Blazor Applications using the BFF (Backend for Frontend) Pattern - Dominick Baier](https://www.youtube.com/watch?v=hWJuX-8Ur2k)
+- [Backend for Frontend (BFF) Security Framework](https://duendesoftware.com/products/bff)
 
 ## Keycloak setup
 
@@ -44,22 +45,8 @@ http://localhost:8080/realms/myrealm/account
 - AuthFlow: Standard flow, Direct access grants
 - Client Auth - On
 
-Add an audience to a client by using client scopes
-- On the left side bar click on “Clients” item.
-- Click “blazor-client”
-- Open “Client scopes” tab
-- Click on “blazor-client-dedicated”, should be on tope of the list of scopes
-- From the “Mappers” tab, click “Create a new mapper”
-- Pick “Audience” from the list
-- specify name: Audience
-- include client audience: “blazor-client”
-- Click “Save”
-Besides “Setup” sub-tab, “Client Scopes” tab has “Evaluate” sub-tab. It might come in handy when you need to figure out effective protocol mappers, effective role scope mappings, the content of access, and id tokens.
-
-
-Add valid redirect urls: http://localhost:5278/*
-
-
+- Add valid redirect urls: http://localhost:5278/*
+- Enable CORS on Keycloak +
 - Download adapter config
 
 ```
@@ -79,6 +66,5 @@ Add valid redirect urls: http://localhost:5278/*
 curl --data "grant_type=password&client_id=blazor-client&username=afedyanin&password=afedyanin&client_secret=aNZUREfcTwZjh1qiD095SGQnzL6SQWo0" localhost:8080/realms/myrealm/protocol/openid-connect/token
 ```
 
-- Enable CORS on Keycloak
 - 
 
