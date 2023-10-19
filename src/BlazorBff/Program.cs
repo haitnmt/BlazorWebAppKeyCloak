@@ -23,10 +23,9 @@ builder.Services.AddAuthentication(options =>
     })
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "http://localhost:8080/realms/myrealm";
-
-        options.ClientId = "blazor-client";
-        options.ClientSecret = "RiewjgKJX4mn4lzxcNW7nvlmGiFr2lqG";
+        options.Authority = builder.Configuration["OpenIDConnectSettings:Authority"];
+        options.ClientId = builder.Configuration["OpenIDConnectSettings:ClientId"];
+        options.ClientSecret = builder.Configuration["OpenIDConnectSettings:ClientSecret"];
         options.ResponseType = OpenIdConnectResponseType.Code;
         options.RequireHttpsMetadata = false;
 
