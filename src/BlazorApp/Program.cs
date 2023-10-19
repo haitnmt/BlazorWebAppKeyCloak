@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Components.Authorization;
-using BlazorApp.Client.BFF;
+using BlazorApp.BFF;
 
 namespace BlazorApp;
 

@@ -1,4 +1,4 @@
-namespace BlazorApp.Client.BFF;
+namespace BlazorApp.BFF;
 
 public class AntiforgeryHandler : DelegatingHandler
 {
