@@ -3,8 +3,8 @@
         <dl>
             @foreach (var claim in @context.User.Claims)
             {
-                <dt>@claim.Type</dt>
-                <dd>@claim.Value</dd>
+                    <dt>@claim.Type</dt>
+                    <dd>@claim.Value</dd>
             }
         </dl>
     </Authorized>

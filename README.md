@@ -19,6 +19,11 @@ Keycloak for Blazor demo
 - [Securing SPAs and Blazor Applications using the BFF (Backend for Frontend) Pattern - Dominick Baier](https://www.youtube.com/watch?v=hWJuX-8Ur2k)
 - [Backend for Frontend (BFF) Security Framework](https://duendesoftware.com/products/bff)
 
+## Openid connect
+- [OpenID Connect Client with .NET](https://curity.io/resources/learn/dotnet-openid-connect-website/)
+- [Persist additional claims and tokens from external providers in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/additional-claims?view=aspnetcore-7.0)
+
+
 ## Keycloak setup
 
 ```
