@@ -1,7 +1,8 @@
+using BlazorApp.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.Authorization;
-using BlazorApp.BFF;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlazorApp;
 
@@ -13,16 +14,16 @@ public class Program
         builder.RootComponents.Add<App>("#app");
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
-        // authentication state plumbing
+        builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();
-        builder.Services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
-
-        // HTTP client configuration
-        builder.Services.AddTransient<AntiforgeryHandler>();
-
-        builder.Services.AddHttpClient("backend", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-            .AddHttpMessageHandler<AntiforgeryHandler>();
-        builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("backend"));
+        builder.Services.TryAddSingleton<AuthenticationStateProvider, HostAuthenticationStateProvider>();
+        builder.Services.TryAddSingleton(sp => (HostAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+        builder.Services.AddTransient<AuthorizedHandler>();
+        builder.Services.AddHttpClient("default", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+        builder.Services.AddHttpClient("authorizedClient")
+            .AddHttpMessageHandler<AuthorizedHandler>();
+        builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("default"));
+        builder.Services.AddTransient<FetchWeatherForecastService>();
 
         await builder.Build().RunAsync();
     }

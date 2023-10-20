@@ -1,5 +1,7 @@
-using System.Security.Claims;
 using System.Text;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -11,54 +13,48 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// builder.Services.AddBff();
-
 builder.Services.AddAuthentication(options =>
     {
-        options.DefaultScheme = "cookie";
-        options.DefaultChallengeScheme = "oidc";
-        options.DefaultSignOutScheme = "oidc";
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
     })
-    .AddCookie("cookie", options =>
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
-        options.Cookie.Name = "__Host-blazor";
         options.Cookie.SameSite = SameSiteMode.Strict;
+
+        options.Events.OnSigningOut = async e =>
+        {
+            await e.HttpContext.RevokeUserRefreshTokenAsync();
+        };
     })
-    .AddOpenIdConnect("oidc", options =>
+    .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
         options.Authority = builder.Configuration["OpenIDConnectSettings:Authority"];
         options.ClientId = builder.Configuration["OpenIDConnectSettings:ClientId"];
         options.ClientSecret = builder.Configuration["OpenIDConnectSettings:ClientSecret"];
+        // options.CallbackPath = "/Account/Login-callback";
         options.ResponseType = OpenIdConnectResponseType.Code;
-        options.CallbackPath = "/auth/*";
-        options.RequireHttpsMetadata = false;
-
+        options.Scope.Add("profile");
+        options.Scope.Add("roles");
+        options.Scope.Add("offline_access");
+        options.SaveTokens = true;
+        options.UsePkce = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            NameClaimType = ClaimTypes.Name,
-            RoleClaimType = ClaimTypes.Role,
-            ValidateIssuer = true,
+            NameClaimType = JwtClaimTypes.Name,
+            RoleClaimType = JwtClaimTypes.Role,
         };
-
-        options.MapInboundClaims = false;
-        options.GetClaimsFromUserInfoEndpoint = true;
-        options.SaveTokens = true;
-
-        options.Scope.Clear();
-        options.Scope.Add("profile");
-        options.Scope.Add("email");
-        options.Scope.Add("roles");
-        options.Scope.Add("openid");
-        options.Scope.Add("offline_access");
 
         options.Events = new OpenIdConnectEvents
         {
             OnTokenValidated = OnTokenValidated,
-            OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
         };
+
+        options.RequireHttpsMetadata = false;
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAccessTokenManagement();
 
 var app = builder.Build();
 
@@ -82,28 +78,14 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-// app.UseBff();
 app.UseAuthorization();
-
-app.MapBffManagementEndpoints();
 
 app.MapRazorPages();
 
-app.MapControllers()
-    .RequireAuthorization();
-
-// .AsBffApiEndpoint();
-
+app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
-
-static Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
-{
-    // Console.WriteLine($"OnAuthorizationCodeReceived Succeeded={context.Result.Succeeded}");
-    Console.WriteLine($"OnAuthorizationCodeReceived");
-    return Task.CompletedTask;
-}
 
 static Task OnTokenValidated(TokenValidatedContext context)
 {
