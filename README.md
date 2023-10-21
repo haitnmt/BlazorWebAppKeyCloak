@@ -30,6 +30,10 @@ Keycloak for Blazor demo
 - [Authentication and Authorization](https://gist.github.com/SteveSandersonMS/175a08dcdccb384a52ba760122cd2eda)
 - [BlazorWebAssemblyCookieAuth](https://github.com/berhir/BlazorWebAssemblyCookieAuth)
 
+## Access token
+- [AccessTokenManagement](https://github.com/DuendeSoftware/Duende.AccessTokenManagement)
+
+
 ## Keycloak setup
 
 ```

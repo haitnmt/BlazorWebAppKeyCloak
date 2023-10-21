@@ -1,4 +1,4 @@
-using System.Text;
+using BlazorBff.Helpers;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -91,20 +91,18 @@ static Task OnTokenValidated(TokenValidatedContext context)
 {
     var res = Task.CompletedTask;
 
-    Console.WriteLine($"token={context.SecurityToken.RawData}");
+    // Console.WriteLine($"token={context.SecurityToken.RawData}");
 
     if (context.Principal == null)
     {
         return res;
     }
 
+    var accessToken = context.TokenEndpointResponse!.AccessToken;
+    var roles = JwtRolesHelper.ExtractRoles(accessToken, true);
+    Console.WriteLine($"Roles: {string.Join(", ", roles)}");
+
     var userClaims = context.Principal.Claims.ToLookup(c => c.Type, c => c.Value);
-
-    foreach (var claim in context.SecurityToken.Claims)
-    {
-        Console.WriteLine($"type={claim.Type} value={claim.Value}  props=[{DictToString(claim.Properties)}]");
-    }
-
     var userLogin = userClaims["preferred_username"].FirstOrDefault();
     var userName = userClaims["name"].FirstOrDefault();
 
@@ -114,16 +112,4 @@ static Task OnTokenValidated(TokenValidatedContext context)
     }
 
     return res;
-}
-
-static string DictToString(IDictionary<string, string> dict)
-{
-    var sb = new StringBuilder();
-
-    foreach (var kvp in dict)
-    {
-        sb.Append($"key={kvp.Key} val={kvp.Value}; ");
-    }
-
-    return sb.ToString();
 }
