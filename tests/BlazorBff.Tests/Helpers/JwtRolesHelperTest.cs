@@ -37,9 +37,31 @@ public class JwtRolesHelperTest
         var roles = JwtRolesHelper.ExtractRoles(_jwtRawString2, new string[] { "account", "blazor-client" });
         Assert.That(roles, Is.Not.Null);
         Assert.That(roles, Has.Length.EqualTo(5));
+        // account
         Assert.That(roles, Has.Member("manage-account"));
         Assert.That(roles, Has.Member("manage-account-links"));
         Assert.That(roles, Has.Member("view-profile"));
+        // client
+        Assert.That(roles, Has.Member("role1"));
+        Assert.That(roles, Has.Member("role2"));
+    }
+
+    [Test]
+    public void CanGetRolesWithAllResources()
+    {
+        var roles = JwtRolesHelper.ExtractRoles(_jwtRawString2, true);
+        Assert.That(roles, Is.Not.Null);
+        Assert.That(roles, Has.Length.EqualTo(9));
+        // realm
+        Assert.That(roles, Has.Member("default-roles-myrealm"));
+        Assert.That(roles, Has.Member("offline_access"));
+        Assert.That(roles, Has.Member("uma_authorization"));
+        Assert.That(roles, Has.Member("myrole"));
+        // account
+        Assert.That(roles, Has.Member("manage-account"));
+        Assert.That(roles, Has.Member("manage-account-links"));
+        Assert.That(roles, Has.Member("view-profile"));
+        // client
         Assert.That(roles, Has.Member("role1"));
         Assert.That(roles, Has.Member("role2"));
     }

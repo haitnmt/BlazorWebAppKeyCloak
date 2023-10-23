@@ -11,8 +11,16 @@ public static class JwtRolesHelper
 
     public static string[] ExtractRoles(
         string? rawJwtAccessToken,
-        string[] resources,
         bool includeRealmRoles = false)
+    {
+        var resources = Array.Empty<string>();
+        return ExtractRoles(rawJwtAccessToken, resources, includeRealmRoles);
+    }
+
+    public static string[] ExtractRoles(
+    string? rawJwtAccessToken,
+    string[] resources,
+    bool includeRealmRoles = false)
     {
         if (string.IsNullOrEmpty(rawJwtAccessToken))
         {
@@ -67,8 +75,9 @@ public static class JwtRolesHelper
         }
 
         var roles = new List<string>();
+        var resourceKeys = resourceNames.Any() ? resourceNames : resourceAccess.Keys;
 
-        foreach (var resource in resourceNames)
+        foreach (var resource in resourceKeys)
         {
             if (resourceAccess.TryGetValue(resource, out var resourceRolesDict))
             {

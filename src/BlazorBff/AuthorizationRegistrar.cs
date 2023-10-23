@@ -78,9 +78,7 @@ public static class AuthorizationRegistrar
         Console.WriteLine($"access token={accessToken}");
 #endif
 
-        var resources = new string[] { "account", "blazor-client" };
-
-        roles.AddRange(JwtRolesHelper.ExtractRoles(accessToken, resources));
+        roles.AddRange(JwtRolesHelper.ExtractRoles(accessToken));
 
         // Get reoles from DB if req
         roles.AddRange(GetRolesByUserIdentity(context.Principal));
