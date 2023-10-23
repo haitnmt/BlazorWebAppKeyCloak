@@ -49,10 +49,10 @@ public class UserController : ControllerBase
             }
 
             // Uncomment this code if you want to send additional claims to the client.
-            //foreach (var claim in claimsPrincipal.Claims.Except(nameClaims))
-            //{
-            //    claims.Add(new ClaimValue(claim.Type, claim.Value));
-            //}
+            foreach (var claim in claimsPrincipal.Claims.Except(nameClaims))
+            {
+                claims.Add(new ClaimValue(claim.Type, claim.Value));
+            }
 
             userInfo.Claims = claims;
         }

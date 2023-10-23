@@ -7,8 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{4B1B7D
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
-		LICENSE = LICENSE
 		keycloak.json = keycloak.json
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff", "src\BlazorBff\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "src\BlazorShared\BlazorShared.csproj", "{AE623DB2-D790-4901-8BC7-D8F73659B83F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBff.Tests", "tests\BlazorBff.Tests\BlazorBff.Tests.csproj", "{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff.Tests", "tests\BlazorBff.Tests\BlazorBff.Tests.csproj", "{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

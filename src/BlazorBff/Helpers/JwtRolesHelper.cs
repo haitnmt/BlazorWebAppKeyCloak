@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace BlazorBff.Helpers;
 
@@ -12,6 +11,7 @@ public static class JwtRolesHelper
 
     public static string[] ExtractRoles(
         string? rawJwtAccessToken,
+        string[] resources,
         bool includeRealmRoles = false)
     {
         if (string.IsNullOrEmpty(rawJwtAccessToken))
@@ -23,14 +23,14 @@ public static class JwtRolesHelper
         var accessTokenDecoded = handler.ReadJwtToken(rawJwtAccessToken);
         var res = new List<string>();
 
-        var resAccess = accessTokenDecoded.Claims.FirstOrDefault(c => c.Type == _resourceAccess);
-        res.AddRange(GetResourceAccessRoles(resAccess));
-
         if (includeRealmRoles)
         {
             var realmAccess = accessTokenDecoded.Claims.FirstOrDefault(c => c.Type == _realmAccess);
             res.AddRange(GetRealmAccessRoles(realmAccess));
         }
+
+        var resAccess = accessTokenDecoded.Claims.FirstOrDefault(c => c.Type == _resourceAccess);
+        res.AddRange(GetResourceAccessRoles(resAccess, resources));
 
         return res.ToArray();
     }
@@ -42,47 +42,44 @@ public static class JwtRolesHelper
             return Array.Empty<string>();
         }
 
-        var realmAccess = JsonSerializer.Deserialize<RealmAccess>(realmAccessClaim.Value);
+        var realmAccessDict = JsonSerializer.Deserialize<IDictionary<string, string[]>>(realmAccessClaim.Value);
 
-        if (realmAccess == null)
+        if (realmAccessDict != null && realmAccessDict.TryGetValue("roles", out var realmAccessRoles))
         {
-            return Array.Empty<string>();
+            return realmAccessRoles;
         }
 
-        return realmAccess.Roles;
+        return Array.Empty<string>();
     }
 
-    private static string[] GetResourceAccessRoles(Claim? resourceAccessClaim)
+    private static string[] GetResourceAccessRoles(Claim? resourceAccessClaim, string[] resourceNames)
     {
         if (resourceAccessClaim == null || resourceAccessClaim.Type != _resourceAccess)
         {
             return Array.Empty<string>();
         }
 
-        var resourceAccess = JsonSerializer.Deserialize<ResourceAccess>(resourceAccessClaim.Value);
+        var resourceAccess = JsonSerializer.Deserialize<IDictionary<string, IDictionary<string, string[]>>>(resourceAccessClaim.Value);
 
-        if (resourceAccess == null || resourceAccess.Account == null)
+        if (resourceAccess == null)
         {
             return Array.Empty<string>();
         }
 
-        return resourceAccess.Account.Roles;
-    }
+        var roles = new List<string>();
 
-    private sealed record RealmAccess
-    {
-        [JsonPropertyName("roles")]
-        public string[] Roles { get; init; } = Array.Empty<string>();
-    }
-    private sealed record ResourceAccess
-    {
-        [JsonPropertyName("account")]
-        public Account? Account { get; init; }
-    }
-    private sealed record Account
-    {
-        [JsonPropertyName("roles")]
-        public string[] Roles { get; init; } = Array.Empty<string>();
+        foreach (var resource in resourceNames)
+        {
+            if (resourceAccess.TryGetValue(resource, out var resourceRolesDict))
+            {
+                if (resourceRolesDict.TryGetValue("roles", out var resourceRoles))
+                {
+                    roles.AddRange(resourceRoles);
+                }
+            }
+        }
+
+        return roles.ToArray();
     }
 }
 
