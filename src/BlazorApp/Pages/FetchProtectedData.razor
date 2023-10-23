@@ -1,5 +1,7 @@
-@page "/fetchdata"
-@using BlazorShared
+@page "/fetchprotecteddata"
+@using BlazorShared;
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject Services.FetchWeatherForecastService WeatherService
 
 <h1>Weather forecast</h1>
@@ -12,6 +14,10 @@
 }
 else
 {
+    <div>
+        <button @onclick="OnRefreshClick">Refresh</button>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
@@ -40,6 +46,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await WeatherService.GetPublicWeatherForeacast();
+        await LoadData();
+    }
+
+    private async Task OnRefreshClick()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        forecasts = null;
+        forecasts = await WeatherService.GetProtectedWeatherForeacast();
     }
 }

@@ -24,6 +24,16 @@ Keycloak for Blazor demo
 - [Persist additional claims and tokens from external providers in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/additional-claims?view=aspnetcore-7.0)
 
 
+## Additional
+- [Server-side ASP.NET Core Blazor additional security scenarios](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/server/additional-scenarios?view=aspnetcore-7.0)
+- [OIDC authentication in server-side Blazor](https://stackoverflow.com/questions/64853618/oidc-authentication-in-server-side-blazor)
+- [Authentication and Authorization](https://gist.github.com/SteveSandersonMS/175a08dcdccb384a52ba760122cd2eda)
+- [BlazorWebAssemblyCookieAuth](https://github.com/berhir/BlazorWebAssemblyCookieAuth)
+
+## Access token
+- [AccessTokenManagement](https://github.com/DuendeSoftware/Duende.AccessTokenManagement)
+
+
 ## Keycloak setup
 
 ```

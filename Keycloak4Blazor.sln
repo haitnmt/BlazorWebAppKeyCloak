@@ -7,8 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{4B1B7D
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
-		LICENSE = LICENSE
 		keycloak.json = keycloak.json
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff", "src\BlazorBff\BlazorBff.csproj", "{9A116B39-F9D1-460A-A269-596894B3AA3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "src\BlazorShared\BlazorShared.csproj", "{AE623DB2-D790-4901-8BC7-D8F73659B83F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff.Tests", "tests\BlazorBff.Tests\BlazorBff.Tests.csproj", "{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 		{9A116B39-F9D1-460A-A269-596894B3AA3C} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 		{AE623DB2-D790-4901-8BC7-D8F73659B83F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
+		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717} = {9C59A7AC-5C91-4BC5-97B7-72B20D752B2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AED32BEA-7168-480C-BA57-E1182383356F}
