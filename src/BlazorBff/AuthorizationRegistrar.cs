@@ -2,7 +2,6 @@ using System.Security.Claims;
 using BlazorBff.Configuration;
 using BlazorBff.Helpers;
 using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -21,15 +20,22 @@ public static class AuthorizationRegistrar
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            options.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
         })
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
         {
-            options.Cookie.SameSite = SameSiteMode.Strict;
+            // set session lifetime
+            options.ExpireTimeSpan = TimeSpan.FromHours(8);
 
-            options.Events.OnSigningOut = async e =>
-            {
-                await e.HttpContext.RevokeUserRefreshTokenAsync();
-            };
+            // sliding or absolute
+            options.SlidingExpiration = false;
+
+            // host prefixed cookie name
+            options.Cookie.Name = "__Host-spa";
+
+            // strict SameSite handling
+            options.Cookie.SameSite = SameSiteMode.Strict;
         })
         .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
         {
@@ -39,12 +45,20 @@ public static class AuthorizationRegistrar
             options.MetadataAddress = config.MetadataUrl;
             options.CallbackPath = config.CallbackPath;
             options.ResponseType = OpenIdConnectResponseType.Code;
+            options.ResponseMode = OpenIdConnectResponseMode.Query;
+            options.MapInboundClaims = false;
+            options.GetClaimsFromUserInfoEndpoint = true;
+
+            // save tokens into authentication session
+            // to enable automatic token management
+            options.SaveTokens = true;
+
+
             options.Scope.Add("profile");
             options.Scope.Add("roles");
             options.Scope.Add("offline_access");
-            options.SaveTokens = true;
+
             options.UsePkce = true;
-            options.GetClaimsFromUserInfoEndpoint = true;
             options.RequireHttpsMetadata = false;
 
             options.TokenValidationParameters = new TokenValidationParameters
@@ -59,7 +73,11 @@ public static class AuthorizationRegistrar
             };
         });
 
-        services.AddAccessTokenManagement();
+        services.AddBff(options =>
+        {
+            // default value
+            options.ManagementBasePath = "/bff";
+        }).AddServerSideSessions();
     }
 
     private static Task OnTokenValidated(TokenValidatedContext context)
