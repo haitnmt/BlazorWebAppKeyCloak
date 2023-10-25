@@ -42,8 +42,8 @@ public static class AuthorizationRegistrar
             options.Authority = config.Authority;
             options.ClientId = config.ClientId;
             options.ClientSecret = config.ClientSecret;
-            options.MetadataAddress = config.MetadataUrl;
-            options.CallbackPath = config.CallbackPath;
+            //options.MetadataAddress = config.MetadataUrl;
+            //options.CallbackPath = config.CallbackPath;
             options.ResponseType = OpenIdConnectResponseType.Code;
             options.ResponseMode = OpenIdConnectResponseMode.Query;
             options.MapInboundClaims = false;
