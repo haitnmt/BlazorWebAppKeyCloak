@@ -12,7 +12,7 @@ public class FetchWeatherForecastService
     public FetchWeatherForecastService(IHttpClientFactory clientFactory, NavigationManager navigationManager)
     {
         _publicApiClient = clientFactory.CreateClient();
-        _protectedApiClient = clientFactory.CreateClient("authorizedClient");
+        _protectedApiClient = clientFactory.CreateClient("backend");
         _publicApiClient.BaseAddress = _protectedApiClient.BaseAddress = new Uri(navigationManager.BaseUri);
     }
 
