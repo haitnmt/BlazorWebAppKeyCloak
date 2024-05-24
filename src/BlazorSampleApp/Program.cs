@@ -1,6 +1,7 @@
 using BlazorSampleApp;
 using BlazorSampleApp.Client.Weather;
 using BlazorSampleApp.Components;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +15,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient<IWeatherForecaster, ServerWeatherForecaster>(httpClient =>
-{
-    httpClient.BaseAddress = new("https://weatherapi");
-});
+builder.Services.AddScoped<IWeatherForecaster, ServerWeatherForecaster>();
 
 var app = builder.Build();
 
@@ -43,17 +41,14 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorSampleApp.Client._Imports).Assembly);
 
-/*
-app.MapForwarder("/weather-forecast", "https://weatherapi", transformBuilder =>
+
+app.MapGet("/weather-forecast", ([FromServices] IWeatherForecaster WeatherForecaster) =>
 {
-    transformBuilder.AddRequestTransform(async transformContext =>
-    {
-        var accessToken = await transformContext.HttpContext.GetTokenAsync("access_token");
-        transformContext.ProxyRequest.Headers.Authorization = new("Bearer", accessToken);
-    });
+    return WeatherForecaster.GetWeatherForecastAsync();
 }).RequireAuthorization();
-*/
+
 
 app.MapGroup("/authentication").MapLoginAndLogout();
 
 app.Run();
+

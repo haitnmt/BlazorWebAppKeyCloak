@@ -1,4 +1,3 @@
-
 namespace BlazorSampleApp.Client.Weather;
 
 public interface IWeatherForecaster

@@ -1,25 +1,26 @@
-using Microsoft.AspNetCore.Authentication;
 using BlazorSampleApp.Client.Weather;
 
 namespace BlazorSampleApp;
 
-internal sealed class ServerWeatherForecaster(HttpClient httpClient, IHttpContextAccessor httpContextAccessor) : IWeatherForecaster
+public class ServerWeatherForecaster() : IWeatherForecaster
 {
+    public readonly string[] summaries =
+    [
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    ];
+
     public async Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync()
     {
-        var httpContext = httpContextAccessor.HttpContext ??
-            throw new InvalidOperationException("No HttpContext available from the IHttpContextAccessor!");
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
 
-        var accessToken = await httpContext.GetTokenAsync("access_token") ??
-            throw new InvalidOperationException("No access_token was saved");
-
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Get, "/weather-forecast");
-        requestMessage.Headers.Authorization = new("Bearer", accessToken);
-        using var response = await httpClient.SendAsync(requestMessage);
-
-        response.EnsureSuccessStatusCode();
-
-        return await response.Content.ReadFromJsonAsync<WeatherForecast[]>() ??
-            throw new IOException("No weather forecast!");
+        return Enumerable.Range(1, 5).Select(index =>
+            new WeatherForecast
+            (
+                DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                Random.Shared.Next(-20, 55),
+                summaries[Random.Shared.Next(summaries.Length)]
+            ))
+        .ToArray();
     }
 }
