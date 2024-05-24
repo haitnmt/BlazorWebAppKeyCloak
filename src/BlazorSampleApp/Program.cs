@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Components.Authorization;
 using BlazorSampleApp;
 using BlazorSampleApp.Client.Weather;
 using BlazorSampleApp.Components;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,18 +11,6 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
-
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
-
-// ConfigureCookieOidcRefresh attaches a cookie OnValidatePrincipal callback to get
-// a new access token when the current one expires, and reissue a cookie with the
-// new access token saved inside. If the refresh fails, the user will be signed
-// out. OIDC connect options are set for saving tokens and the offline access
-// scope.
-
-builder.Services.ConfigureCookieOidcRefresh(
-    CookieAuthenticationDefaults.AuthenticationScheme,
-    OpenIdConnectDefaults.AuthenticationScheme);
 
 builder.Services.AddHttpContextAccessor();
 

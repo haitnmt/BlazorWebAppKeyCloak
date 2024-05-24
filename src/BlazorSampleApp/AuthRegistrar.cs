@@ -3,14 +3,13 @@ using System.Security.Claims;
 using BlazorSampleApp.Client;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace BlazorSampleApp;
 
 public static class AuthRegistrar
 {
-    // private const string MS_OIDC_SCHEME = "MicrosoftOidc";
-
     internal static void AddOidcAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var config = new OidcConfiguration();
@@ -30,15 +29,31 @@ public static class AuthRegistrar
 
                 oidcOptions.Authority = config.Authority;
                 oidcOptions.MetadataAddress = config.MetadataUrl;
+                // oidcOptions.CallbackPath = new PathString("/signin-oidc");
+                // oidcOptions.SignedOutCallbackPath = new PathString("/signout-callback-oidc");
+                // oidcOptions.RemoteSignOutPath = new PathString("/signout-oidc");
+
                 oidcOptions.RequireHttpsMetadata = false;
 
                 oidcOptions.ClientId = config.ClientId;
                 oidcOptions.ClientSecret = config.ClientSecret;
 
                 oidcOptions.ResponseType = OpenIdConnectResponseType.Code;
+                oidcOptions.ResponseMode = OpenIdConnectResponseMode.Query;
+
                 oidcOptions.MapInboundClaims = false;
                 oidcOptions.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
                 oidcOptions.TokenValidationParameters.RoleClaimType = "role";
+
+                oidcOptions.Scope.Add("profile");
+                oidcOptions.Scope.Add("roles");
+                oidcOptions.Scope.Add(OpenIdConnectScope.OfflineAccess);
+                oidcOptions.Scope.Add(OpenIdConnectScope.OpenIdProfile);
+
+                oidcOptions.SaveTokens = true;
+
+                // oidcOptions.UsePkce = true;
+                // oidcOptions.GetClaimsFromUserInfoEndpoint = true;
 
                 oidcOptions.Events = new OpenIdConnectEvents
                 {
@@ -61,80 +76,19 @@ public static class AuthRegistrar
                 //options.Cookie.SameSite = SameSiteMode.Strict;
             });
 
-        /*
-        services
-        .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-        {
-            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.Authority = config.Authority;
-            options.ClientId = config.ClientId;
-            options.ClientSecret = config.ClientSecret;
-            options.MetadataAddress = config.MetadataUrl;
-            options.RequireHttpsMetadata = false;
+        services.AddScoped<AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
 
-            options.MapInboundClaims = false;
-            options.ResponseType = OpenIdConnectResponseType.Code;
-
-            options.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
-            options.TokenValidationParameters.RoleClaimType = "role";
-        })
-        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-        {
-            // set session lifetime
-            options.ExpireTimeSpan = TimeSpan.FromHours(8);
-
-            // sliding or absolute
-            options.SlidingExpiration = false;
-
-            // host prefixed cookie name
-            options.Cookie.Name = "__Host-spa";
-
-            // strict SameSite handling
-            options.Cookie.SameSite = SameSiteMode.Strict;
-        });
-
-
-        .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-        {
-            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-            options.Authority = config.Authority;
-            options.ClientId = config.ClientId;
-            options.ClientSecret = config.ClientSecret;
-            options.MetadataAddress = config.MetadataUrl;
-
-            //options.CallbackPath = config.CallbackPath;
-            options.ResponseType = OpenIdConnectResponseType.Code;
-            options.ResponseMode = OpenIdConnectResponseMode.Query;
-            options.MapInboundClaims = false;
-            options.GetClaimsFromUserInfoEndpoint = true;
-
-            // save tokens into authentication session
-            // to enable automatic token management
-            options.SaveTokens = true;
-
-            options.Scope.Add("profile");
-            options.Scope.Add("roles");
-            options.Scope.Add(OpenIdConnectScope.OfflineAccess);
-            options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-
-            options.UsePkce = true;
-            options.RequireHttpsMetadata = false;
-            options.GetClaimsFromUserInfoEndpoint = true;
-
-            // options.MapInboundClaims = false;
-            options.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
-            options.TokenValidationParameters.RoleClaimType = "role";
-
-            options.Events = new OpenIdConnectEvents
-            {
-                OnTokenValidated = OnTokenValidated,
-            };
-        });
-        */
+        services.ConfigureCookieOidcRefresh(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
 
-    public static IServiceCollection ConfigureCookieOidcRefresh(this IServiceCollection services, string cookieScheme, string oidcScheme)
+    // ConfigureCookieOidcRefresh attaches a cookie OnValidatePrincipal callback to get
+    // a new access token when the current one expires, and reissue a cookie with the
+    // new access token saved inside. If the refresh fails, the user will be signed
+    // out. OIDC connect options are set for saving tokens and the offline access
+    // scope.
+    private static IServiceCollection ConfigureCookieOidcRefresh(this IServiceCollection services, string cookieScheme, string oidcScheme)
     {
         services.AddSingleton<CookieOidcRefresher>();
         services.AddOptions<CookieAuthenticationOptions>(cookieScheme).Configure<CookieOidcRefresher>((cookieOptions, refresher) =>
@@ -186,8 +140,6 @@ public static class AuthRegistrar
         {
             context.Principal.AddIdentity(new ClaimsIdentity(claims));
         }
-
-
 
         return Task.CompletedTask;
     }
