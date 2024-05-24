@@ -68,6 +68,7 @@ dotnet_diagnostic.IDE0090.severity = none
 dotnet_diagnostic.IDE0022.severity = none
 dotnet_diagnostic.IDE0061.severity = none
 dotnet_diagnostic.IDE0025.severity = none
+dotnet_diagnostic.IDE0210.severity = none
 csharp_style_prefer_readonly_struct_member = true:suggestion
 
 ##########################################

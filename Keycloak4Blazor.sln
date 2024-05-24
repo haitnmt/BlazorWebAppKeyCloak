@@ -7,22 +7,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{4B1B7D
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		keycloak-setup.md = keycloak-setup.md
 		keycloak.json = keycloak.json
 		LICENSE = LICENSE
 		README.md = README.md
+		TECH.md = TECH.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4B42857C-FD8E-4EB6-B9D6-200FD3E19168}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C59A7AC-5C91-4BC5-97B7-72B20D752B2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSampleApp", "src\BlazorSampleApp\BlazorSampleApp.csproj", "{D922FDF4-851B-4779-A507-11EB6087918A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp", "src\BlazorApp\BlazorApp.csproj", "{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff", "src\BlazorBff\BlazorBff.csproj", "{9A116B39-F9D1-460A-A269-596894B3AA3C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "src\BlazorShared\BlazorShared.csproj", "{AE623DB2-D790-4901-8BC7-D8F73659B83F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff.Tests", "tests\BlazorBff.Tests\BlazorBff.Tests.csproj", "{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSampleApp.Client", "src\BlazorSampleApp.Client\BlazorSampleApp.Client.csproj", "{D469E4E5-8DED-46C1-803A-6444E3F9085C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,31 +26,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A116B39-F9D1-460A-A269-596894B3AA3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A116B39-F9D1-460A-A269-596894B3AA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A116B39-F9D1-460A-A269-596894B3AA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A116B39-F9D1-460A-A269-596894B3AA3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE623DB2-D790-4901-8BC7-D8F73659B83F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2E141D10-E6F4-45F6-94D1-BFE23D0B1B8F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
-		{9A116B39-F9D1-460A-A269-596894B3AA3C} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
-		{AE623DB2-D790-4901-8BC7-D8F73659B83F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
-		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717} = {9C59A7AC-5C91-4BC5-97B7-72B20D752B2C}
+		{D922FDF4-851B-4779-A507-11EB6087918A} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AED32BEA-7168-480C-BA57-E1182383356F}
