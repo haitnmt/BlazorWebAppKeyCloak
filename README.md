@@ -33,6 +33,11 @@ Keycloak for Blazor demo
 ## Access token
 - [AccessTokenManagement](https://github.com/DuendeSoftware/Duende.AccessTokenManagement)
 
+## Blazor 8
+
+https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-8.0
+
+
 
 ## Keycloak setup
 
