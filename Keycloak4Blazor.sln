@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{4B1B7D
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		keycloak-setup.md = keycloak-setup.md
 		keycloak.json = keycloak.json
 		LICENSE = LICENSE
 		README.md = README.md
@@ -24,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "src\BlazorS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBff.Tests", "tests\BlazorBff.Tests\BlazorBff.Tests.csproj", "{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSampleApp", "BlazorSampleApp\BlazorSampleApp\BlazorSampleApp.csproj", "{469AC74C-692B-46A3-BE99-10702A8F7541}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSampleApp", "src\BlazorSampleApp\BlazorSampleApp.csproj", "{D922FDF4-851B-4779-A507-11EB6087918A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSampleApp.Client", "BlazorSampleApp\BlazorSampleApp.Client\BlazorSampleApp.Client.csproj", "{9ECF2EC5-2C19-4676-837C-9254CF09E28F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSampleApp.Client", "src\BlazorSampleApp.Client\BlazorSampleApp.Client.csproj", "{D469E4E5-8DED-46C1-803A-6444E3F9085C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,14 +51,14 @@ Global
 		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717}.Release|Any CPU.Build.0 = Release|Any CPU
-		{469AC74C-692B-46A3-BE99-10702A8F7541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{469AC74C-692B-46A3-BE99-10702A8F7541}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{469AC74C-692B-46A3-BE99-10702A8F7541}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{469AC74C-692B-46A3-BE99-10702A8F7541}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9ECF2EC5-2C19-4676-837C-9254CF09E28F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9ECF2EC5-2C19-4676-837C-9254CF09E28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9ECF2EC5-2C19-4676-837C-9254CF09E28F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9ECF2EC5-2C19-4676-837C-9254CF09E28F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D922FDF4-851B-4779-A507-11EB6087918A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,8 +68,8 @@ Global
 		{9A116B39-F9D1-460A-A269-596894B3AA3C} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 		{AE623DB2-D790-4901-8BC7-D8F73659B83F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 		{9DF3DA09-9E4E-4FAD-88E4-CFD2EF251717} = {9C59A7AC-5C91-4BC5-97B7-72B20D752B2C}
-		{469AC74C-692B-46A3-BE99-10702A8F7541} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
-		{9ECF2EC5-2C19-4676-837C-9254CF09E28F} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
+		{D922FDF4-851B-4779-A507-11EB6087918A} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
+		{D469E4E5-8DED-46C1-803A-6444E3F9085C} = {4B42857C-FD8E-4EB6-B9D6-200FD3E19168}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AED32BEA-7168-480C-BA57-E1182383356F}
