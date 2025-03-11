@@ -29,9 +29,9 @@ public static class AuthRegistrar
 
                 oidcOptions.Authority = config.Authority;
                 oidcOptions.MetadataAddress = config.MetadataUrl;
-                // oidcOptions.CallbackPath = new PathString("/signin-oidc");
-                // oidcOptions.SignedOutCallbackPath = new PathString("/signout-callback-oidc");
-                // oidcOptions.RemoteSignOutPath = new PathString("/signout-oidc");
+                oidcOptions.CallbackPath = new PathString(config.CallbackPath);
+                oidcOptions.SignedOutCallbackPath = new PathString(config.SignedOutCallbackPath);
+                oidcOptions.RemoteSignOutPath = new PathString("/signout-oidc");
 
                 oidcOptions.RequireHttpsMetadata = false;
 
