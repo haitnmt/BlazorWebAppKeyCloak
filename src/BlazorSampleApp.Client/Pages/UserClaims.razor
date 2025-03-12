@@ -2,6 +2,7 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>User Claims</PageTitle>
 
@@ -15,10 +16,13 @@
             <li><b>@claim.Type:</b> @claim.Value</li>
         }
     </ul>
+
+    <li>@_token</li>
 }
 
 @code {
     private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+    private string? _token;
 
     [CascadingParameter]
     private Task<AuthenticationState>? AuthState { get; set; }
@@ -29,8 +33,9 @@
         {
             return;
         }
-
         var authState = await AuthState;
         claims = authState.User.Claims;
+        var persistentAuthenticationStateProvider = (PersistentAuthenticationStateProvider)AuthenticationStateProvider;
+        _token = persistentAuthenticationStateProvider?.CurrentUserInfo?.AccessToken;
     }
 }
